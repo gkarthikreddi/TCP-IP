@@ -25,7 +25,7 @@ void init_glthread(glthread *node);
 #define ITERATE_GLTHREAD_BEGIN(start_ptr, ptr)      \
 {                                                   \
     glthread *_glthread_ptr = NULL;                 \
-    _glthread_ptr = BASE(start_ptr);                \
+    ptr = BASE(start_ptr);                          \
     for(; ptr; ptr = _glthread_ptr) {               \
         _glthread_ptr = ptr->right;
 

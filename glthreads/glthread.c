@@ -92,6 +92,7 @@ void glthread_priority_insert(glthread *base, glthread *node, int (*comp_fn)(voi
         glthread_add_next(base, node);
         return;
     }
+
     /* Only one node*/
     if(base->right && !base->right->right){
         if(comp_fn(GLTHREAD_GET_USER_DATA_FROM_OFFSET(base->right, offset), 
