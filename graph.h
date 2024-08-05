@@ -1,5 +1,9 @@
+#ifndef __GRAPH__
+#define __GRAPH__
+
 #include "glthreads/glthread.h"
 #include <assert.h>
+#include "net.h"
 
 #define IF_NAME_SIZE    16
 #define NODE_NAME_SIZE  16
@@ -13,6 +17,7 @@ typedef struct interface {
     char if_name[IF_NAME_SIZE];
     struct node *att_node;
     struct link *wire;
+    intf_nw_prop prop;
 } interface;
 
 struct link {
@@ -25,6 +30,7 @@ struct node {
     char node_name[NODE_NAME_SIZE];
     interface *intf[MAX_INTF_PER_NODE];
     glthread graph_glue;
+    node_nw_prop prop;
 };
 
 typedef struct graph {
@@ -56,8 +62,10 @@ void insert_link_between_nodes(node *node1, node *node2,
 
 // (Assignment 2)
 static inline interface* get_node_if_by_name(node *dev, char *if_name) {
-    for (int i = 0; i < MAX_INTF_PER_NODE; i++)
-        if (dev->intf[i]->if_name == if_name) return dev->intf[i];
+    for (int i = 0; i < MAX_INTF_PER_NODE; i++) {
+        if (!dev->intf[i]) return NULL;
+        if (strncmp(dev->intf[i]->if_name, if_name, IF_NAME_SIZE) == 0) return dev->intf[i];
+    }
 
     return NULL;
 }
@@ -78,3 +86,5 @@ static inline node* get_node_by_node_name(graph *topo, char *node_name) {
     } ITERATE_GLTHREAD_END(lst, ptr);
     return nullptr;
 }
+
+#endif
