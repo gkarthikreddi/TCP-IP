@@ -3,6 +3,7 @@
 
 #include "glthreads/glthread.h"
 #include <assert.h>
+#include <string.h>
 #include "net.h"
 
 #define IF_NAME_SIZE    16
@@ -84,7 +85,12 @@ static inline node* get_node_by_node_name(graph *topo, char *node_name) {
         curr = glthread_to_node(ptr);
         if (curr->node_name == node_name) return curr;
     } ITERATE_GLTHREAD_END(lst, ptr);
-    return nullptr;
+    return NULL;
 }
+
+// Display routines
+void dump_graph(graph *topo);
+void dump_node(node *dev);
+void dump_interface(interface *intf);
 
 #endif
